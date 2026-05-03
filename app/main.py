@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
@@ -10,6 +11,14 @@ import os
 load_dotenv()
 
 app = FastAPI(title=os.getenv("APP_NAME", "Todo API"))
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include auth routes
 app.include_router(auth_router)
